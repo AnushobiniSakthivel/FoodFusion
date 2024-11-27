@@ -125,10 +125,12 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
+            /* Show hamburger menu */
             .menu-toggle {
                 display: flex;
             }
 
+            /* Hide navigation links on small screens by default */
             nav ul {
                 display: none;
                 flex-direction: column;
@@ -164,83 +166,6 @@
                 font-size: 1em;
             }
         }
-
-        /* Mobile menu button (hamburger) */
-.menu-btn {
-    display: none;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    width: 30px;
-    height: 30px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-}
-
-.menu-btn div {
-    width: 25px;
-    height: 3px;
-    background-color: #fff;
-}
-
-/* Navbar styling for mobile */
-nav ul {
-    list-style: none;
-    display: flex;
-    margin: 0;
-    padding: 0;
-    background-color: #6c63ff;
-    width: 100%;
-    flex-direction: row;
-}
-
-nav ul li {
-    margin: 0 15px;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: #fff;
-    font-size: 16px;
-    transition: color 0.3s;
-}
-
-nav ul li a:hover {
-    color: #ffe600;
-}
-
-/* Mobile menu active state */
-nav.active ul {
-    display: block;
-}
-
-nav ul {
-    display: none;
-    width: 100%;
-    text-align: center;
-    padding: 20px 0;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    nav ul {
-        display: none; /* Hide the menu by default on mobile */
-        width: 100%;
-        text-align: center;
-        padding: 20px 0;
-        background-color: #6c63ff;
-        flex-direction: column; /* Stack the menu items vertically */
-    }
-
-    nav.active ul {
-        display: block; /* Show the menu when it's active */
-    }
-
-    .menu-btn {
-        display: flex;
-    }
-}
 
     </style>
 </head>
@@ -317,14 +242,6 @@ nav ul {
             const menu = document.querySelector('nav ul');
             menu.classList.toggle('show');
         }
-
-        // Mobile Menu Toggle
-const menuBtn = document.getElementById("menu-btn");
-const nav = document.getElementById("nav");
-menuBtn.addEventListener("click", () => {
-    nav.classList.toggle("active"); // Toggles the visibility of the menu
-});
-
     </script>
 </body>
 </html>
