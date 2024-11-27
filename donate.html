@@ -45,6 +45,7 @@
             align-items: center;
         }
 
+        /* Navbar styling */
         nav ul {
             list-style: none;
             display: flex;
@@ -65,6 +66,25 @@
 
         nav ul li a:hover {
             color: #ffe600;
+        }
+
+        /* Mobile menu button (hamburger) */
+        .menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .menu-btn div {
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
         }
 
         /* Main Section */
@@ -175,12 +195,23 @@
         /* Responsive Design */
         @media (max-width: 768px) {
             nav ul {
-                flex-direction: column;
+                display: none;
+                width: 100%;
                 text-align: center;
+                padding: 20px 0;
+                background-color: #6c63ff;
             }
 
             nav ul li {
                 margin: 10px 0;
+            }
+
+            nav.active ul {
+                display: block;
+            }
+
+            .menu-btn {
+                display: flex;
             }
 
             .donate-food h2 {
@@ -198,7 +229,13 @@
     <header>
         <div class="container">
             <h1>Food Fusion</h1>
-            <nav>
+            <!-- Mobile Menu Button -->
+            <button class="menu-btn" id="menu-btn">
+                <div></div>
+                <div></div>
+                <div></div>
+            </button>
+            <nav id="nav">
                 <ul>
                     <li><a href="dashboard.html">Home</a></li>
                     <li><a href="donate.html">Donate Food</a></li>
@@ -265,34 +302,15 @@
         <p>&copy; 2024 Food Fusion. All rights reserved.</p>
     </footer>
 
-    <script type="module">
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBPpoxoBnm8y11GIEbdiYRitZxSfXqFFvo",
-            authDomain: "food-fusion-1e03c.firebaseapp.com",
-            projectId: "food-fusion-1e03c",
-            storageBucket: "food-fusion-1e03c.appspot.com",
-            messagingSenderId: "1051146015879",
-            appId: "1:1051146015879:web:e0ff48b151166f7f495422",
-            measurementId: "G-253LXKNR72"
-        };
-    
-        // Initialize Firebase
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js";
-    
-        // Initialize Firebase app
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-    
-        // Check if the user is authenticated
-        onAuthStateChanged(auth, (user) => {
-            if (!user) {
-                // If the user is not authenticated, redirect to the login page
-                window.location.href = "index.html";
-            }
+    <script>
+        // Toggle navigation menu on mobile
+        const menuBtn = document.getElementById('menu-btn');
+        const nav = document.getElementById('nav');
+
+        menuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
         });
     </script>
-    
+
 </body>
 </html>
