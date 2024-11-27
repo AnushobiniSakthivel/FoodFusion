@@ -252,7 +252,7 @@
             <h2>Donate Food</h2>
             <p>Join us in the fight against hunger by donating surplus food to those in need. Your generous contributions can help feed families and reduce food waste.</p>
 
-            <form action="thankyou.html" method="post">
+            <form id="donate-form">
                 <table>
                     <tr>
                         <td><label for="donor-name">Full Name:</label></td>
@@ -294,16 +294,99 @@
                     <li>Donate only edible and safe-to-consume food items.</li>
                 </ul>
             </div>
+
+            <!-- Donation Data Table -->
+            <div id="donation-list">
+                <h3>Recent Donations</h3>
+                <table id="donation-data"></table>
+            </div>
         </section>
     </main>
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2024 Food Fusion. All rights reserved.</p>
+        <p>Food Fusion © 2024 | All rights reserved.</p>
     </footer>
 
+    <!-- Firebase Script -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
     <script>
-        // Toggle navigation menu on mobile
+        // Firebase Config and Initialization
+        const firebaseConfig = {
+            apiKey: "AIzaSyBPpoxoBnm8y11GIEbdiYRitZxSfXqFFvo",
+            authDomain: "food-fusion-1e03c.firebaseapp.com",
+            projectId: "food-fusion-1e03c",
+            storageBucket: "food-fusion-1e03c.firebasestorage.app",
+            messagingSenderId: "1051146015879",
+            appId: "1:1051146015879:web:e0ff48b151166f7f495422",
+            measurementId: "G-253LXKNR72"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore(app);
+
+        // DOM Elements
+        const donateForm = document.getElementById('donate-form');
+        const donationList = document.getElementById('donation-list');
+        const donationData = document.getElementById('donation-data');
+
+        // Handle form submission
+        donateForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('donor-name').value;
+            const email = document.getElementById('donor-email').value;
+            const phone = document.getElementById('donor-phone').value;
+            const foodType = document.getElementById('food-type').value;
+            const quantity = document.getElementById('food-quantity').value;
+            const address = document.getElementById('pickup-address').value;
+
+            try {
+                // Save donation data to Firestore
+                await db.collection('donations').add({
+                    donorName: name,
+                    donorEmail: email,
+                    donorPhone: phone,
+                    foodType: foodType,
+                    foodQuantity: quantity,
+                    pickupAddress: address,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                // Display data
+                alert("Donation successfully submitted!");
+
+                // Clear form
+                donateForm.reset();
+                loadDonationData();
+            } catch (error) {
+                alert("Error submitting donation: " + error.message);
+            }
+        });
+
+        // Load donation data from Firestore
+        async function loadDonationData() {
+            const snapshot = await db.collection('donations').orderBy('timestamp', 'desc').get();
+            donationData.innerHTML = "<tr><th>Name</th><th>Food</th><th>Quantity</th><th>Location</th></tr>";
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                donationData.innerHTML += `
+                    <tr>
+                        <td>${data.donorName}</td>
+                        <td>${data.foodType}</td>
+                        <td>${data.foodQuantity} kg</td>
+                        <td>${data.pickupAddress}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        // Initial data load
+        loadDonationData();
+
+        // Mobile Menu
         const menuBtn = document.getElementById('menu-btn');
         const nav = document.getElementById('nav');
 
@@ -311,6 +394,5 @@
             nav.classList.toggle('active');
         });
     </script>
-
 </body>
 </html>
