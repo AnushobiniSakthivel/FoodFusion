@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <script type="module">
         // Firebase configuration
         const firebaseConfig = {
@@ -30,10 +29,12 @@
             }
         });
     </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Fusion</title>
     <link rel="icon" href="donate_link_image.jpg">
+
     <style>
         /* Basic Reset */
         * {
@@ -73,6 +74,7 @@
             align-items: center;
         }
 
+        /* Navbar styling */
         nav ul {
             list-style: none;
             display: flex;
@@ -93,6 +95,25 @@
             color: #ffe600;
         }
 
+        /* Mobile menu button (hamburger) */
+        .menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .menu-btn div {
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+        }
+
         /* Hero Section */
         .hero {
             text-align: center;
@@ -100,6 +121,11 @@
             background: linear-gradient(to right, #6c63ff, #8a6aff);
             color: white;
             flex-grow: 1; /* Push footer to the bottom */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            flex-direction: column;
         }
 
         .hero h2 {
@@ -143,12 +169,19 @@
         /* Responsive Design */
         @media (max-width: 768px) {
             nav ul {
-                flex-direction: column;
+                display: none;
+                width: 100%;
                 text-align: center;
+                padding: 20px 0;
+                background-color: #6c63ff;
             }
 
             nav ul li {
                 margin: 10px 0;
+            }
+
+            nav.active ul {
+                display: block;
             }
 
             .hero h2 {
@@ -158,6 +191,10 @@
             .hero p {
                 font-size: 1em;
             }
+
+            .menu-btn {
+                display: flex;
+            }
         }
     </style>
 </head>
@@ -166,7 +203,13 @@
     <header>
         <div class="container">
             <h1>Food Fusion</h1>
-            <nav>
+            <!-- Mobile Menu Button -->
+            <button class="menu-btn" id="menu-btn">
+                <div></div>
+                <div></div>
+                <div></div>
+            </button>
+            <nav id="nav">
                 <ul>
                     <li><a href="dashboard.html">Home</a></li>
                     <li><a href="donate.html">Donate Food</a></li>
@@ -189,7 +232,14 @@
         <p>&copy; 2024 Food Fusion. All rights reserved.</p>
     </footer>
 
+    <script>
+        // Toggle navigation menu on mobile
+        const menuBtn = document.getElementById('menu-btn');
+        const nav = document.getElementById('nav');
 
-    
+        menuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+    </script>
 </body>
 </html>
