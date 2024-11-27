@@ -323,7 +323,11 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js"></script>
 
-    <script>
+<script type="module">
+        // Import the required Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, serverTimestamp, orderBy, query } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
+
         // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBPpoxoBnm8y11GIEbdiYRitZxSfXqFFvo",
@@ -336,8 +340,8 @@
         };
 
         // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore(app);
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
         // Handle form submission
         const form = document.getElementById("donation-form");
@@ -351,24 +355,29 @@
             const foodQuantity = document.getElementById("food-quantity").value;
             const pickupAddress = document.getElementById("pickup-address").value;
 
-            // Save donation to Firestore
-            await db.collection("donations").add({
-                donorName,
-                donorEmail,
-                donorPhone,
-                foodType,
-                foodQuantity,
-                pickupAddress,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            });
+            try {
+                // Save donation to Firestore
+                await addDoc(collection(db, "donations"), {
+                    donorName,
+                    donorEmail,
+                    donorPhone,
+                    foodType,
+                    foodQuantity,
+                    pickupAddress,
+                    timestamp: serverTimestamp()
+                });
 
-            alert("Donation submitted successfully!");
+                alert("Donation submitted successfully!");
 
-            // Clear the form
-            form.reset();
+                // Clear the form
+                form.reset();
 
-            // Refresh the donation data table
-            loadDonationData();
+                // Refresh the donation data table
+                loadDonationData();
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                alert("Error submitting donation. Please try again.");
+            }
         });
 
         // Load donation data
@@ -376,8 +385,9 @@
             const tableBody = document.getElementById("donation-table").getElementsByTagName("tbody")[0];
             tableBody.innerHTML = ""; // Clear existing rows
 
-            const snapshot = await db.collection("donations").orderBy("timestamp", "desc").get();
-            snapshot.forEach((doc) => {
+            const q = query(collection(db, "donations"), orderBy("timestamp", "desc"));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
                 const data = doc.data();
                 const row = tableBody.insertRow();
                 row.insertCell(0).textContent = data.donorName;
