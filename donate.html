@@ -98,6 +98,11 @@
             max-width: 800px;
             margin: 0 auto;
             text-align: center;
+            display: flex; /* Add this line */
+            flex-direction: column; /* Ensure items are stacked vertically */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            height: 100%; /* Ensure it takes the full available height */
         }
 
         .donate-food h2 {
@@ -223,10 +228,7 @@
             }
         }
 
-
-
-
-                /* Table Styling */
+        /* Table Styling */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -325,140 +327,37 @@
                         <td><input type="number" id="food-quantity" name="food-quantity" placeholder="Enter quantity (e.g., kg)" min="1" required></td>
                     </tr>
                     <tr>
-                        <td><label for="pickup-address">Pickup Address:</label></td>
-                        <td><textarea id="pickup-address" name="pickup-address" rows="3" placeholder="Enter pickup location" required></textarea></td>
+                        <td><label for="donation-message">Additional Message (optional):</label></td>
+                        <td><textarea id="donation-message" name="donation-message" rows="4" placeholder="Any additional information or instructions"></textarea></td>
                     </tr>
                     <tr>
-                        <td colspan="2" style="text-align: center;">
-                            <input type="submit" value="Donate Now">
-                        </td>
+                        <td colspan="2"><input type="submit" value="Donate Food"></td>
                     </tr>
                 </table>
             </form>
 
             <div class="donation-info">
-                <h3>Donation Guidelines:</h3>
+                <h3>Why Donate?</h3>
                 <ul>
-                    <li>Ensure the food is fresh and properly packaged.</li>
-                    <li>Provide accurate details for pickup arrangements.</li>
-                    <li>Donate only edible and safe-to-consume food items.</li>
+                    <li>Help feed people in need in your community.</li>
+                    <li>Reduce food waste by donating surplus food.</li>
+                    <li>Make a positive impact on society and the environment.</li>
                 </ul>
             </div>
-
-            <h3>Donation Details:</h3>
-    <div class="table-container">
-        <table id="donation-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Food Type</th>
-                    <th>Quantity</th>
-                    <th>Pickup Address</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Donation data will be dynamically populated here -->
-            </tbody>
-        </table>
-    </div>
         </section>
     </main>
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2024 Food Fusion - All Rights Reserved</p>
+        <p>&copy; 2024 Food Fusion. All rights reserved.</p>
     </footer>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js"></script>
-
-<script type="module">
-        // Import the required Firebase modules
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, serverTimestamp, orderBy, query } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
-
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBPpoxoBnm8y11GIEbdiYRitZxSfXqFFvo",
-            authDomain: "food-fusion-1e03c.firebaseapp.com",
-            projectId: "food-fusion-1e03c",
-            storageBucket: "food-fusion-1e03c.firebasestorage.app",
-            messagingSenderId: "1051146015879",
-            appId: "1:1051146015879:web:e0ff48b151166f7f495422",
-            measurementId: "G-253LXKNR72"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        // Handle form submission
-        const form = document.getElementById("donation-form");
-        form.addEventListener("submit", async (event) => {
-            event.preventDefault();
-
-            const donorName = document.getElementById("donor-name").value;
-            const donorEmail = document.getElementById("donor-email").value;
-            const donorPhone = document.getElementById("donor-phone").value;
-            const foodType = document.getElementById("food-type").value;
-            const foodQuantity = document.getElementById("food-quantity").value;
-            const pickupAddress = document.getElementById("pickup-address").value;
-
-            try {
-                // Save donation to Firestore
-                await addDoc(collection(db, "donations"), {
-                    donorName,
-                    donorEmail,
-                    donorPhone,
-                    foodType,
-                    foodQuantity,
-                    pickupAddress,
-                    timestamp: serverTimestamp()
-                });
-
-                alert("Donation submitted successfully!");
-
-                // Clear the form
-                form.reset();
-
-                // Refresh the donation data table
-                loadDonationData();
-            } catch (error) {
-                console.error("Error adding document: ", error);
-                alert("Error submitting donation. Please try again.");
-            }
-        });
-
-        // Load donation data
-        async function loadDonationData() {
-            const tableBody = document.getElementById("donation-table").getElementsByTagName("tbody")[0];
-            tableBody.innerHTML = ""; // Clear existing rows
-
-            const q = query(collection(db, "donations"), orderBy("timestamp", "desc"));
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
-                const row = tableBody.insertRow();
-                row.insertCell(0).textContent = data.donorName;
-                row.insertCell(1).textContent = data.donorEmail;
-                row.insertCell(2).textContent = data.donorPhone;
-                row.insertCell(3).textContent = data.foodType;
-                row.insertCell(4).textContent = data.foodQuantity;
-                row.insertCell(5).textContent = data.pickupAddress;
-            });
-        }
-
-        // Initial load of donation data
-        loadDonationData();
-
-        // Mobile Menu Toggle
-        const menuBtn = document.getElementById("menu-btn");
-        const nav = document.getElementById("nav");
-        menuBtn.addEventListener("click", () => {
-            nav.classList.toggle("active");
+    <script>
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const nav = document.getElementById('nav');
+        menuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
         });
     </script>
 </body>
