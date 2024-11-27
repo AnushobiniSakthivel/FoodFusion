@@ -174,7 +174,7 @@
     <header>
         <div class="container">
             <h1>Food Fusion</h1>
-            <div class="menu-toggle" onclick="toggleMenu()">
+            <div class="menu-toggle" id="menu-btn">
                 <div></div>
                 <div></div>
                 <div></div>
@@ -238,10 +238,10 @@
         });
 
         // Toggle the menu for small screens
-        function toggleMenu() {
+        document.getElementById("menu-btn").addEventListener("click", function() {
             const menu = document.querySelector('nav ul');
             menu.classList.toggle('show');
-        }
+        });
     </script>
 </body>
 </html>
