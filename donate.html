@@ -222,6 +222,56 @@
                 font-size: 1em;
             }
         }
+
+
+
+
+                /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow-x: auto;
+            display: block;
+            margin-top: 20px;
+        }
+
+        table td, table th {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #6c63ff;
+            color: white;
+            font-weight: bold;
+        }
+
+        table td {
+            background-color: #fff;
+        }
+
+        table td input[type="submit"] {
+            background-color: #6c63ff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        table td input[type="submit"]:hover {
+            background-color: #5a54d2;
+        }
+
+        /* Make table horizontally scrollable */
+        .table-container {
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
     </style>
 </head>
 <body>
@@ -296,21 +346,23 @@
             </div>
 
             <h3>Donation Details:</h3>
-            <table id="donation-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Food Type</th>
-                        <th>Quantity</th>
-                        <th>Pickup Address</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Donation data will be dynamically populated here -->
-                </tbody>
-            </table>
+    <div class="table-container">
+        <table id="donation-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Food Type</th>
+                    <th>Quantity</th>
+                    <th>Pickup Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Donation data will be dynamically populated here -->
+            </tbody>
+        </table>
+    </div>
         </section>
     </main>
 
