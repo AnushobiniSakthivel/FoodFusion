@@ -44,6 +44,21 @@
             align-items: center;
         }
 
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 25px;
+        }
+
+        .menu-toggle div {
+            height: 5px;
+            width: 100%;
+            background-color: #fff;
+            border-radius: 5px;
+        }
+
         nav ul {
             list-style: none;
             display: flex;
@@ -138,13 +153,37 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
+            /* Show hamburger menu */
+            .menu-toggle {
+                display: flex;
+            }
+
+            /* Hide navigation links on small screens by default */
             nav ul {
+                display: none;
                 flex-direction: column;
+                width: 100%;
                 text-align: center;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                background-color: #6c63ff;
+                z-index: 1000;
             }
 
             nav ul li {
-                margin: 10px 0;
+                margin: 15px 0;
+                width: 100%;
+            }
+
+            nav ul li a {
+                padding: 10px;
+                width: 100%;
+                display: block;
+            }
+
+            nav ul.show {
+                display: flex;
             }
 
             .contact-us h2 {
@@ -162,6 +201,11 @@
     <header>
         <div class="container">
             <h1>Food Fusion</h1>
+            <div class="menu-toggle" id="menu-btn">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
             <nav>
                 <ul>
                     <li><a href="dashboard.html">Home</a></li>
@@ -236,7 +280,12 @@
                 window.location.href = "index.html";
             }
         });
+
+        // Toggle the menu for small screens
+        document.getElementById("menu-btn").addEventListener("click", function() {
+            const menu = document.querySelector('nav ul');
+            menu.classList.toggle('show');
+        });
     </script>
-    
 </body>
 </html>
